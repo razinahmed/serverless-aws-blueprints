@@ -1,0 +1,7 @@
+service: aws-node-api
+provider:
+  name: aws
+  runtime: nodejs18.x
+functions:
+  hello:
+    handler: handler.hello
