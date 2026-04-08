@@ -1,7 +1,21 @@
-service: aws-node-api
+service: aws-enterprise-api
+
 provider:
   name: aws
   runtime: nodejs18.x
-functions:
-  hello:
-    handler: handler.hello
+  region: us-east-1
+  environment:
+    USERS_TABLE: UsersTable-${sls:stage}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - Fn::GetAtt: [ UsersTable, Arn ]
